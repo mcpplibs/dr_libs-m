@@ -1,0 +1,12 @@
+[package]
+name        = "dr_libs"
+version     = "0.1.0"
+description = "An audio file tool written against import mcpplibs.mwrap.dr_libs: describe WAV/AIFF, FLAC and MP3 files (format, length, peak and RMS level) and decode any of them to a 16-bit or float WAV"
+license     = "Apache-2.0"
+
+[targets.dr_libs]
+kind = "bin"
+main = "src/main.cpp"
+
+[dependencies]
+"mcpplibs.mwrap.dr_libs" = { path = "../.." }
