@@ -1,0 +1,4 @@
+[template]
+description  = "Audio files with import mcpplibs.mwrap.dr_libs: write a tone as a WAV with dr_wav, read it back sample-exact, and describe any WAV, AIFF, FLAC or MP3 file given"
+default      = true
+post_message = "Run `mcpp run` (writes tone.wav and reads it back), or `mcpp run -- song.flac` to describe a file of your own."
