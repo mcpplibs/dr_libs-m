@@ -1,0 +1,97 @@
+// {{project.name}} — audio files through import mcpplibs.mwrap.dr_libs.
+//
+//   {{project.name}}               write tone.wav (an A440 chord, 1 s, 16-bit stereo) with
+//                                  dr_wav, read it back and check every sample
+//   {{project.name}} <file>...     describe WAV, AIFF, FLAC or MP3 files: format, length, peak
+//
+// One import gives dr_wav, dr_flac and dr_mp3 with their upstream names;
+// their constants (DR_WAVE_FORMAT_PCM, DRWAV_SUCCESS …) are in
+// mcpplibs::mwrap::dr_libs::macros.
+import std;
+import mcpplibs.mwrap.dr_libs;
+
+using namespace mcpplibs::mwrap::dr_libs::macros;
+
+namespace {
+
+int write_and_check(const char* path) {
+    constexpr unsigned rate = 44100, frames = rate;
+    std::vector<drwav_int16> pcm(frames * 2);
+    for (unsigned n = 0; n < frames; ++n) {
+        const double t = double(n) / rate;
+        pcm[2 * n] = drwav_int16(std::lround(9000 * std::sin(2 * std::numbers::pi * 440 * t)));      // A4
+        pcm[2 * n + 1] = drwav_int16(std::lround(9000 * std::sin(2 * std::numbers::pi * 554.37 * t))); // C#5
+    }
+    drwav_data_format format{drwav_container_riff, DR_WAVE_FORMAT_PCM, 2, rate, 16};
+    drwav w;
+    if (!drwav_init_file_write(&w, path, &format, nullptr)) {
+        std::println(std::cerr, "cannot write {}", path);
+        return 1;
+    }
+    const drwav_uint64 written = drwav_write_pcm_frames(&w, frames, pcm.data());
+    drwav_uninit(&w);
+
+    unsigned channels = 0, sample_rate = 0;
+    drwav_uint64 count = 0;
+    drwav_int16* back = drwav_open_file_and_read_pcm_frames_s16(path, &channels, &sample_rate, &count, nullptr);
+    if (back == nullptr) {
+        std::println(std::cerr, "cannot read {} back", path);
+        return 1;
+    }
+    const bool same = count == frames && std::equal(pcm.begin(), pcm.end(), back);
+    drwav_free(back, nullptr);
+    std::println("{}: wrote {} frames ({} ch, {} Hz, dr_wav {}), read {} back: {}", path, written, channels,
+                 sample_rate, drwav_version_string(), count, same ? "every sample identical" : "DIFFERENT");
+    return same ? 0 : 1;
+}
+
+int describe(const std::string& path) {
+    std::ifstream in(path, std::ios::binary);
+    char magic[4] = {};
+    in.read(magic, 4);
+    const std::string_view m(magic, 4);
+    unsigned channels = 0, rate = 0;
+    std::uint64_t frames = 0;
+    float* samples = nullptr;
+    const char* what = "MP3";
+    if (m == "RIFF" || m == "RIFX" || m == "RF64" || m == "riff" || m == "FORM") {
+        what = m == "FORM" ? "AIFF" : "WAV";
+        drwav_uint64 n = 0;
+        samples = drwav_open_file_and_read_pcm_frames_f32(path.c_str(), &channels, &rate, &n, nullptr);
+        frames = n;
+    } else if (m == "fLaC" || m == "OggS") {
+        what = "FLAC";
+        drflac_uint64 n = 0;
+        samples = drflac_open_file_and_read_pcm_frames_f32(path.c_str(), &channels, &rate, &n, nullptr);
+        frames = n;
+    } else {
+        drmp3_config config{};
+        drmp3_uint64 n = 0;
+        samples = drmp3_open_file_and_read_pcm_frames_f32(path.c_str(), &config, &n, nullptr);
+        channels = config.channels;
+        rate = config.sampleRate;
+        frames = n;
+    }
+    if (samples == nullptr) {
+        std::println(std::cerr, "{}: not a WAV, AIFF, FLAC or MP3 file", path);
+        return 1;
+    }
+    float peak = 0;
+    for (std::uint64_t i = 0; i < frames * channels; ++i) peak = std::max(peak, std::abs(samples[i]));
+    // Each library frees what it allocated.
+    if (what[0] == 'F' && what[1] == 'L') drflac_free(samples, nullptr);
+    else if (what[0] == 'M') drmp3_free(samples, nullptr);
+    else drwav_free(samples, nullptr);
+    std::println("{}: {}, {} ch, {} Hz, {:.2f} s, peak {:.1f} dBFS", path, what, channels, rate, double(frames) / rate,
+                 peak > 0 ? 20 * std::log10(peak) : -120.0);
+    return 0;
+}
+
+}  // namespace
+
+int main(int argc, char** argv) {
+    if (argc < 2) return write_and_check("tone.wav") || describe("tone.wav");
+    int status = 0;
+    for (int i = 1; i < argc; ++i) status |= describe(argv[i]);
+    return status;
+}

@@ -1,0 +1,51 @@
+# Module wrapper; upstream API preserved. Policy: mcpp-index/docs/mwrap.md.
+[package]
+namespace   = "mcpplibs.mwrap"
+name        = "dr_libs"
+version     = "2026.03.03"
+description = "dr_libs C++ modules for mcpp (import mcpplibs.mwrap.dr_libs;): dr_wav 0.14.5, dr_flac 0.13.3 and dr_mp3 0.7.3 over compat.dr_libs, one module per header, their macros as constants"
+license     = "Apache-2.0"
+authors     = ["mcpp-community"]
+repo        = "https://github.com/mcpplibs/dr_libs-m"
+platforms   = ["linux", "macos", "windows"]
+
+[targets.dr_libs]
+kind = "lib"
+
+[build]
+sources      = ["src/*.cppm"]
+# <mwrap/dr_libs/macros.hpp>: the macros a C++ entity cannot be.
+include_dirs = ["include"]
+
+[dependencies]
+compat.dr_libs = "2026.03.03"
+
+[dev-dependencies]
+compat.gtest     = "1.15.2"
+# tests/miniaudio_test.cpp: miniaudio's renamed copies (ma_dr_*) in the same program.
+compat.miniaudio = "0.11.25"
+
+# upstream-version is compat.dr_libs' (the pinned commit's date); the three
+# headers' own versions and the commit are recorded beside it.
+[package.metadata.mwrap]
+upstream-version = "2026.03.03"
+upstream-commit  = "fa931f3285ced10ace628f7f1ac951e1951e7ea6"
+dr_wav           = "0.14.5"
+dr_flac          = "0.13.3"
+dr_mp3           = "0.7.3"
+
+[[runtime.deploy]]
+from = "LICENSE"
+to   = "licenses/dr_libs"
+
+[[runtime.deploy]]
+from = "NOTICE"
+to   = "licenses/dr_libs"
+
+[[runtime.deploy]]
+from = "upstream/dr_libs/README.md"
+to   = "licenses/dr_libs/upstream/dr_libs"
+
+[[runtime.deploy]]
+from = "upstream/dr_libs/LICENSE"
+to   = "licenses/dr_libs/upstream/dr_libs"

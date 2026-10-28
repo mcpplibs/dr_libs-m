@@ -1,0 +1,4 @@
+# Preserve upstream document bytes and original whitespace on every platform.
+upstream/** -text -whitespace
+tests/data/*.flac binary
+tests/data/*.mp3 binary
