@@ -1,0 +1,36 @@
+{
+  "upstream": "https://github.com/mackron/dr_libs/archive/fa931f3285ced10ace628f7f1ac951e1951e7ea6.tar.gz",
+  "upstream_version": "2026.03.03",
+  "upstream_commit": "fa931f3285ced10ace628f7f1ac951e1951e7ea6",
+  "upstream_sha256": "b56be5930399b9ea81591a837e0c9ee959a5d57e90dac96e0af37dde1fa0bb7e",
+  "headers": {
+    "dr_wav.h": {
+      "version": "0.14.5",
+      "tag": "wav-0.14.5",
+      "tag_commit": "fa931f3285ced10ace628f7f1ac951e1951e7ea6"
+    },
+    "dr_flac.h": {
+      "version": "0.13.3",
+      "tag": "flac-0.13.3",
+      "tag_commit": "69d777c482775858e8ea8a7b047c9bcd451febc8"
+    },
+    "dr_mp3.h": {
+      "version": "0.7.3",
+      "tag": "mp3-0.7.3",
+      "tag_commit": "5690d4671d7ad07ae6021756d7222eb159745f06"
+    }
+  },
+  "pruning": "Nothing of dr_libs is vendored: the library is compat.dr_libs 2026.03.03, built from the same commit archive (the wav-0.14.5 commit, whose dr_flac.h and dr_mp3.h are byte-identical to the flac-0.13.3 and mp3-0.7.3 tags) through one generated implementation TU. Its README and license (a choice of Unlicense or MIT-0) are retained here.",
+  "documents": [
+    {
+      "path": "upstream/dr_libs/README.md",
+      "source": "https://github.com/mackron/dr_libs/blob/fa931f3285ced10ace628f7f1ac951e1951e7ea6/README.md",
+      "sha256": "a9871b7ee951b4a83552b220c794936ca667d3185c0f40d11b516d542e27e538"
+    },
+    {
+      "path": "upstream/dr_libs/LICENSE",
+      "source": "https://github.com/mackron/dr_libs/blob/fa931f3285ced10ace628f7f1ac951e1951e7ea6/LICENSE",
+      "sha256": "dd1c647e6f767f8ff4b2dfae0fed314726600a01e0cf1ef556afddd5fa96ff15"
+    }
+  ]
+}

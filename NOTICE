@@ -1,0 +1,20 @@
+dr_libs-m: C++ module wrapper
+Copyright (c) 2026 mcpp-community contributors
+
+The wrapper contributions are licensed under the Apache License, Version 2.0.
+Upstream code, copied interfaces and dependencies retain their original
+licenses and copyright notices. dr_libs (dr_wav, dr_flac, dr_mp3) is
+available as a choice of Public Domain (Unlicense) or MIT No Attribution:
+
+  Copyright 2020 David Reid (MIT No Attribution alternative)
+
+dr_mp3 is based on minimp3 by lieff (https://github.com/lieff/minimp3),
+released into the public domain (CC0). Its original README and license are
+retained in upstream/dr_libs/. The library itself is built by compat.dr_libs
+from the same commit; this wrapper links it, it does not modify it.
+
+The test fixtures tests/data/tone.flac and tests/data/tone.mp3 were made for
+this repository from signals defined in tests/data/README.md and are
+contributed under the same terms as the wrapper (Apache-2.0).
+
+Provenance and checksums are recorded in upstream/documents.json.
