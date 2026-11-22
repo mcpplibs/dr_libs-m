@@ -35,7 +35,7 @@ it in one program.
 ## Getting started
 
 ```sh
-mcpp new tone --template mcpplibs.mwrap.dr_libs@2026.03.03
+mcpp new tone --template mcpplibs.mwrap.dr_libs@2026.03.03.1
 cd tone
 mcpp run
 ```
@@ -46,7 +46,7 @@ MP3 files.
 
 ```toml
 [dependencies]
-"mcpplibs.mwrap.dr_libs" = "2026.03.03"
+mcpplibs.mwrap.dr_libs = "2026.03.03.1"
 ```
 
 ```cpp

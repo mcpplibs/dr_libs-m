@@ -9,4 +9,4 @@ kind = "bin"
 main = "src/main.cpp"
 
 [dependencies]
-"mcpplibs.mwrap.dr_libs" = { path = "../.." }
+mcpplibs.mwrap.dr_libs = { path = "../.." }

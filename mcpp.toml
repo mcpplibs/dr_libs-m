@@ -2,7 +2,7 @@
 [package]
 namespace   = "mcpplibs.mwrap"
 name        = "dr_libs"
-version     = "2026.03.03"
+version     = "2026.03.03.1"
 description = "dr_libs C++ modules for mcpp (import mcpplibs.mwrap.dr_libs;): dr_wav 0.14.5, dr_flac 0.13.3 and dr_mp3 0.7.3 over compat.dr_libs, one module per header, their macros as constants"
 license     = "Apache-2.0"
 authors     = ["mcpp-community"]

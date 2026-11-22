@@ -33,7 +33,7 @@ RF64、Wave64 与 AIFF（PCM、浮点、A-law、mu-law、ADPCM）并写入 WAV�
 ## 快速开始
 
 ```sh
-mcpp new tone --template mcpplibs.mwrap.dr_libs@2026.03.03
+mcpp new tone --template mcpplibs.mwrap.dr_libs@2026.03.03.1
 cd tone
 mcpp run
 ```
@@ -43,7 +43,7 @@ mcpp run
 
 ```toml
 [dependencies]
-"mcpplibs.mwrap.dr_libs" = "2026.03.03"
+mcpplibs.mwrap.dr_libs = "2026.03.03.1"
 ```
 
 ```cpp
